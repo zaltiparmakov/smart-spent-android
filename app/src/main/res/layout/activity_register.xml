@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_form"
+    android:background="@drawable/login_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:layout_width="97sp"
+        android:layout_height="104sp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="114sp"
+        android:layout_marginTop="57sp"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="337sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="188sp"
+        android:layout_marginEnd="0sp"
+        android:fontFamily="@font/steinerlight"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="327dp"
+        android:layout_height="241dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="270dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/full_name"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginBottom="10sp"
+                android:background="@drawable/input_field"
+                android:drawableLeft="@drawable/ic_user"
+                android:drawablePadding="15sp"
+                android:fontFamily="@font/walkway"
+                android:hint="@string/prompt_fullname"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="10sp"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/email_login_form">
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginBottom="10sp"
+                android:background="@drawable/input_field"
+                android:drawableLeft="@drawable/ic_user"
+                android:drawablePadding="15sp"
+                android:fontFamily="@font/walkway"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="10sp"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:background="@drawable/input_field"
+                android:drawableLeft="@drawable/ic_key"
+                android:drawablePadding="15sp"
+                android:fontFamily="@font/walkway"
+                android:hint="@string/prompt_password"
+                android:imeActionId="6"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingLeft="10sp"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/signup_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:layout_marginTop="40sp"
+            android:background="@drawable/btn_gradient_green"
+            android:fontFamily="@font/steinerlight"
+            android:text="@string/action_signup"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/footer_already_signed"
+            android:layout_width="325sp"
+            android:layout_height="58dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20sp"
+            android:layout_marginEnd="255dp"
+            android:layout_marginBottom="72dp"
+            android:textAlignment="center"
+            android:text="@string/already_signed" />
+
+    </LinearLayout>
+
+</RelativeLayout>

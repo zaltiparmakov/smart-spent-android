@@ -1,0 +1,27 @@
+jobs:
+  include:
+   - stage: test
+     language: python
+     python:
+       - "3.5"
+     before_install:
+       - cd ./web/backend
+     install:
+       - pip install -r requirements.txt
+ 
+   - stage: test
+     language: node_js
+     addons:
+       chrome: stable
+     node_js:
+       - "10.12.0"
+     before_script:
+       - npm install -g @angular/cli
+       - npm install -g node-sass
+     script:
+       - cd ./web/frontend
+       - npm install
+       - ng build --prod --aot
+       - ng test
+
+   
