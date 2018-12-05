@@ -1,44 +1,51 @@
 package si.smartspent.smartspent;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Map;
+import com.bumptech.glide.Glide;
 
-import si.smartspent.smartspent.Transactions.Transactions;
+import si.smartspent.smartspent.CustomViews.CircleImageView;
 import si.smartspent.smartspent.Transactions.TransactionsActivity;
 
 public class DrawerActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
+    protected DrawerLayout mDrawerLayout;
     protected FrameLayout frameLayout;
-    private TextView username;
+    private TextView name;
+    private CircleImageView avatar;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.drawable.ic_drawer:
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.nav_settings:
+                intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
+            default:
                 mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_view, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -62,23 +69,21 @@ public class DrawerActivity extends AppCompatActivity {
                             case R.id.nav_transactions:
                                 intent = new Intent(getApplicationContext(), TransactionsActivity.class);
                                 startActivity(intent);
-                                finish();
                                 break;
                             case R.id.nav_logout:
                                 Utils.logout(getApplicationContext());
                                 intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(intent);
-                                finish();
-                                break;
-                            case R.id.nav_timer:
-                                intent = new Intent(getApplicationContext(), TimerActivity.class);
-                                startActivity(intent);
+                                // call destroy method to destroy the activity
                                 finish();
                                 break;
                             case R.id.nav_map:
                                 intent = new Intent(getApplicationContext(), MapActivity.class);
                                 startActivity(intent);
-                                finish();
+                                break;
+                            case R.id.stats:
+                                intent = new Intent(getApplicationContext(), StatsActivity.class);
+                                startActivity(intent);
                                 break;
                         }
                         return true;
@@ -87,8 +92,13 @@ public class DrawerActivity extends AppCompatActivity {
         );
 
         View headerView = navigationView.getHeaderView(0);
-        username = (TextView) headerView.findViewById(R.id.txt_username);
-        username.setText(Utils.getUsername(this));
+        name = (TextView) headerView.findViewById(R.id.name);
+        name.setText(Utils.getFullName(this));
+
+        avatar = (CircleImageView) headerView.findViewById(R.id.avatar);
+        Glide.with(this)
+                .load(Utils.getUserData(this, "avatar"))
+                .into(avatar);
 
         // when user clicks on drawer header or email, go to profile activity
         headerView.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +137,15 @@ public class DrawerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar actionbar = getSupportActionBar();
+        int color = 0;
+        try {
+            color = getResources().getColor(R.color.colorAccent);
+        } catch (Resources.NotFoundException e) {
+            System.err.println("Color not found");
+        }
+        actionbar.setBackgroundDrawable(new ColorDrawable(color));
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        actionbar.setElevation(10);
     }
 }

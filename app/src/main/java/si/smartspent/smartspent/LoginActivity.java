@@ -259,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Get user related data such as username, name etc.
+     * Get user related data such as username, description etc.
      */
     private class UserDataTask extends AsyncTask<Void, Void, Boolean> {
         @Override
@@ -271,9 +271,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 Request req = new Request.Builder()
                         .header("Content-Type", "application/json")
-                        .header("Authorization", "Token " + Utils.getToken(getApplicationContext()))
+//                        .header("Authorization", "Token " + Utils.getToken(getApplicationContext()))
                         .url(API_URL + "user")
-                        .get().build();
+                        .get()
+                        .build();
                 Response res = client.newCall(req).execute();
 
                 String jsonData = res.body().string();

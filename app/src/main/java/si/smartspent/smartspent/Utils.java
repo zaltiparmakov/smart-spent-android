@@ -1,31 +1,40 @@
 package si.smartspent.smartspent;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Class used for APIs and usful methods
  */
 public class Utils {
     // Django backend for auth and data
-    public static final String API_URL = "https://smartspent.si/api/";
+    public static final String API_URL = "http://192.168.43.75:8080/";
+    private static final String TAG = Utils.class.getName();
 
     public static void setToken(Context context, String access_token) {
-        context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+        context.getSharedPreferences("userData", Context.MODE_PRIVATE)
                 .edit().putString("token", access_token).apply();
     }
 
     public static String getToken(Context context) {
-        return context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+        return context.getSharedPreferences("userData", Context.MODE_PRIVATE)
                 .getString("token", "");
     }
 
     public static void logout(Context context) {
-        context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+        context.getSharedPreferences("userData", Context.MODE_PRIVATE)
                 .edit().clear().apply();
     }
 
@@ -43,38 +52,45 @@ public class Utils {
 
     public static void setUserData(Context context, JSONObject data) throws JSONException {
         for(int i = 1; i < data.length(); i++) {
-            context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-                    .edit().putString(data.names().getString(i), (String) data.get(data.names().getString(i)))
-                    .apply();
+            SharedPreferences.Editor editor = context.getSharedPreferences("userData", Context.MODE_PRIVATE).edit();
+            JSONArray keys = data.names();
+            try {
+                String key = keys.getString(i);
+                editor.putString(key, data.getString(key));
+            } catch (Exception e) {
+                System.err.print(TAG + "Invalid JSON value format");
+            }
+
+            editor.apply();
         }
     }
 
-    public static String getUsername(Context context) {
-        return context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-                .getString("username", "");
-    }
-
-    public static String getEmail(Context context) {
-        return context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-                .getString("email", "");
-    }
-
-    public static String getFirstname(Context context) {
-        return context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-                .getString("first_name", "");
-    }
-
-    public static String getLastname(Context context) {
-        return context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-                .getString("last_name", "");
-    }
-
     public static String getFullName(Context context) {
-        StringBuilder fullname = null;
-        fullname.append(getFirstname(context));
+        StringBuilder fullname = new StringBuilder("");
+        fullname.append(getUserData(context, "first_name"));
         fullname.append(" ");
-        fullname.append(getLastname(context));
+        fullname.append(getUserData(context, "last_name"));
 
         return fullname.toString();
+    }
+
+    public static String getUserData(Context context, String key) {
+        return context.getSharedPreferences("userData", Context.MODE_PRIVATE)
+                .getString(key, "");
+    }
+
+    public static int convertDpToPixel(float dp){
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return Math.round(px);
+    }
+
+    public static String locationToString(Location location) {
+        return Location.convert(location.getLatitude(), Location.FORMAT_DEGREES) + " " +
+                Location.convert(location.getLongitude(), Location.FORMAT_DEGREES);
+    }
+
+    public static String latLngToString(LatLng location) {
+        return String.valueOf(location.latitude) + " " + String.valueOf(location.longitude);
     }
 }

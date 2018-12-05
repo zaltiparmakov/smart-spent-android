@@ -2,21 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:title="@string/app_name" />
-        <item
             android:id="@+id/nav_transactions"
+            android:icon="@drawable/ic_transactions"
             android:title="@string/transactions" />
         <item
-            android:id="@+id/nav_timer"
-            android:title="@string/timer" />
+            android:id="@+id/stats"
+            android:icon="@drawable/ic_chart"
+            android:title="@string/stats" />
         <item
             android:id="@+id/nav_map"
-            android:icon="@drawable/ic_key"
+            android:icon="@drawable/ic_map"
             android:title="@string/map" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_key"
+            android:icon="@drawable/ic_exit"
             android:title="@string/logout" />
     </group>
 </menu>

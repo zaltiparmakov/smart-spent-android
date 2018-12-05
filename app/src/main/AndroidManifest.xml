@@ -2,63 +2,100 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="si.smartspent.smartspent">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        android:theme="@style/DefaultTheme">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ProfileActivity" />
-        <activity
-            android:name=".RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <!-- Providers -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="si.smartspent.smartspent"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Login/Register Activities -->
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register" />
+
+        <!-- Settings Activities -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:launchMode="singleTop" />
+
+        <!-- Map Activities -->
         <activity
             android:name=".MapActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:launchMode="singleTop" >
+        </activity>
+
+        <!-- Transaction Activities -->
         <activity
             android:name=".Transactions.TransactionsActivity"
-            android:label="@string/title_activity_transactions" />
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Transactions.NewTransactionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Transactions.TransactionsActivity" />
+        </activity>
         <activity
             android:name=".Transactions.TransactionDetailsActivity"
-            android:label="@string/title_activity_transaction_details" />
-        <activity android:name=".TimerActivity"></activity>
+            android:label="@string/title_activity_transaction_details">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Transactions.TransactionsActivity" />
+        </activity>
+
+        <!-- Stats Activities -->
+        <activity android:name=".StatsActivity"></activity>
+
+        <!-- Services -->
+        <service android:name=".LocationService" android:enabled="true" />
     </application>
 
 </manifest>

@@ -113,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check if user entered name
+        // Check if user entered description
         if(TextUtils.isEmpty(fullname)) {
             mFullnameText.setError(getString(R.string.error_field_required));
             focusView = mFullnameText;
@@ -151,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             final OkHttpClient client;
             try {
-                // Divide full name into tokens, and assign first and last name to variables
+                // Divide full description into tokens, and assign first and last description to variables
                 // to send them to the backend
                 ArrayList<String> name_tokens = new ArrayList<>();
                 StringTokenizer tokenizer = new StringTokenizer(mFullname);
@@ -163,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
                 try {
                     lastname = name_tokens.get(1);
                 } catch (IndexOutOfBoundsException e) {
-                    // if there is no last name, add 1, on the backend will be added to the username
+                    // if there is no last description, add 1, on the backend will be added to the username
                     lastname = "1";
                 }
 
