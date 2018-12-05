@@ -11,17 +11,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import si.smartspent.smartspent.CustomViews.CircleImageView;
 
 import static si.smartspent.smartspent.Utils.API_URL;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import si.smartspent.smartspent.ProfileView.PointsTab;
+import si.smartspent.smartspent.ProfileView.PointsView;
+import si.smartspent.smartspent.ProfileView.TabAdapter;
+import si.smartspent.smartspent.ProfileView.TransactionsTab;
 
 public class ProfileActivity extends DrawerActivity {
     private static final String TAG = ProfileActivity.class.getName();
@@ -30,9 +32,12 @@ public class ProfileActivity extends DrawerActivity {
     private TextView name;
     private TextView birth_date;
     private TextView country;
-    private TextView phone_number;
     private CircleImageView avatar;
-    private Canvas points_holder_canvas;
+    private TabAdapter adapter;
+    private TabLayout tabLayout;
+    private ViewPager mViewPager;
+    private PointsView pView;
+    private TextView points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,6 @@ public class ProfileActivity extends DrawerActivity {
         name = (TextView) findViewById(R.id.name);
         birth_date = (TextView) findViewById(R.id.birth_date);
         country = (TextView) findViewById(R.id.country);
-        phone_number = (TextView) findViewById(R.id.phone_number);
         avatar = (CircleImageView) findViewById(R.id.avatar);
 
         // Get user data from Shared Preferences
@@ -53,11 +57,20 @@ public class ProfileActivity extends DrawerActivity {
         email.setText(Utils.getUserData(this, "email"));
         birth_date.setText(Utils.getUserData(this, "birth_date"));
         country.setText(Utils.getUserData(this, "country"));
-        phone_number.setText(Utils.getUserData(this, "phone_number"));
 
-        // Get avatar from Shared Preferences, and put it into custom ImageView using Glide library
+        // Get avatar URL from Shared Preferences, and put it into custom ImageView using Glide library
         Glide.with(getApplicationContext())
                 .load(Utils.getUserData(this, "avatar"))
                 .into(avatar);
+        mViewPager = (ViewPager) findViewById(R.id.mPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
+        adapter = new TabAdapter(getSupportFragmentManager());
+        adapter.addFragment(new PointsTab(), "Points");
+        adapter.addFragment(new TransactionsTab(), "Transactions");
+        mViewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(mViewPager);
+        pView = (PointsView) findViewById(R.id.pointsView);
+        points = (TextView) findViewById(R.id.textView_points);
     }
 }
