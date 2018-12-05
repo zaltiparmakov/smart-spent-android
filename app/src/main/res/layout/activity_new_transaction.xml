@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:id="@+id/new_transaction_fragment">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_gravity="center_horizontal"
+            tools:context=".Transactions.NewTransactionActivity">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/transaction"
+                android:textSize="@dimen/title_text"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="40dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAllCaps="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/transaction_description"
+                android:background="@drawable/line"
+                android:drawableLeft="@drawable/ic_pen"
+                android:drawablePadding="20dp"
+                android:hint="@string/name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:inputType="textPersonName" />
+
+            <si.smartspent.smartspent.CustomViews.AutoCompleteEditView
+                android:id="@+id/transaction_category"
+                android:hint="@string/category"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/transaction_date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/clickable_textview"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_calendar"
+                android:drawablePadding="20dp"
+                android:onClick="showDatePicker"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/transaction_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/clickable_textview"
+                android:drawableLeft="@drawable/ic_location"
+                android:drawablePadding="20dp"
+                android:paddingBottom="10dp"
+                android:onClick="changeLocation"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/bill"
+                android:textSize="@dimen/title_text"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:textAllCaps="true"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/scan_bill"
+                    android:text="@string/scan_bill"
+                    android:onClick="scanBill"
+                    android:textColor="@android:color/white"
+                    android:drawableLeft="@drawable/ic_camera"
+                    android:drawablePadding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/view_scanned_items"
+                    android:text="@string/view_items"
+                    android:onClick="viewScannedItems"
+                    android:textColor="@android:color/white"
+                    android:drawableLeft="@drawable/ic_itemlist"
+                    android:drawablePadding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/amount"
+                android:textSize="@dimen/title_text"
+                android:layout_marginTop="30dp"
+                android:textAllCaps="true"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:paddingLeft="35dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="15dp"
+                    android:textSize="50sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/euro_symbol"/>
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/euro_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:np_width="64dp"
+                    app:np_height="180dp"
+                    app:np_dividerColor="@color/colorPrimary"
+                    app:np_max="1000"
+                    app:np_min="0"
+                    app:np_selectedTextColor="@color/colorPrimary"
+                    app:np_selectedTextSize="@dimen/selected_text_size"
+                    app:np_textColor="@color/colorPrimary"
+                    app:np_textSize="@dimen/text_size"
+                    app:np_typeface="@string/roboto_light"
+                    app:np_value="3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="10dp"
+                    android:padding="5dp"
+                    android:textSize="30sp"
+                    android:text="@string/point_symbol"/>
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/cent_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:np_width="64dp"
+                    app:np_height="180dp"
+                    app:np_dividerColor="@color/colorPrimary"
+                    app:np_max="99"
+                    app:np_min="0"
+                    app:np_selectedTextColor="@color/colorPrimary"
+                    app:np_selectedTextSize="@dimen/selected_text_size"
+                    app:np_textColor="@color/colorPrimary"
+                    app:np_textSize="@dimen/text_size"
+                    app:np_typeface="@string/roboto_light"
+                    app:np_value="0" />
+            </LinearLayout>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/add_transaction"
+            android:onClick="addTransaction"
+            android:text="@string/add"
+            android:textColor="@android:color/white"
+            android:layout_gravity="bottom"
+            android:focusable="true"
+            android:background="@drawable/button_long"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+</RelativeLayout>
