@@ -8,19 +8,23 @@ import android.util.DisplayMetrics;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import android.location.Location;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Class used for APIs and usful methods
  */
 public class Utils {
     // Django backend for auth and data
-    public static final String API_URL = "http://192.168.43.75:8080/";
+    public static final String API_URL = "http://localhost:3000";
     private static final String TAG = Utils.class.getName();
 
     public static void setToken(Context context, String access_token) {
@@ -77,6 +81,13 @@ public class Utils {
     public static String getUserData(Context context, String key) {
         return context.getSharedPreferences("userData", Context.MODE_PRIVATE)
                 .getString(key, "");
+    }
+
+    public static JSONArray getUserTransactions(Context context) throws JSONException{
+        //JsonParser parser = new JsonParser();
+        //JsonObject result = (JsonObject) parser.parse(getUserData(context, "transactions"));
+        JSONArray jsonArray = new JSONArray(getUserData(context, "transactions"));
+        return jsonArray;
     }
 
     public static int convertDpToPixel(float dp){
