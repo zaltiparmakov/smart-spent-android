@@ -1,29 +1,18 @@
-package si.smartspent.smartspent;
+package si.smartspent.smartspent.Profile;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import si.smartspent.smartspent.CustomViews.CircleImageView;
 
-import static si.smartspent.smartspent.Utils.API_URL;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
-import si.smartspent.smartspent.ProfileView.PointsTab;
-import si.smartspent.smartspent.ProfileView.PointsView;
-import si.smartspent.smartspent.ProfileView.TabAdapter;
-import si.smartspent.smartspent.ProfileView.TransactionsTab;
+import si.smartspent.smartspent.DrawerActivity;
+import si.smartspent.smartspent.R;
+import si.smartspent.smartspent.Utils;
 
 public class ProfileActivity extends DrawerActivity {
     private static final String TAG = ProfileActivity.class.getName();

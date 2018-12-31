@@ -1,4 +1,4 @@
-package si.smartspent.smartspent;
+package si.smartspent.smartspent.Location;
 
 public class Location {
     private String latitude;

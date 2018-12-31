@@ -1,12 +1,11 @@
 package si.smartspent.smartspent.Transactions;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import si.smartspent.smartspent.Location;
+import si.smartspent.smartspent.Location.Location;
 
 public class Transaction {
     private int id;
@@ -15,6 +14,8 @@ public class Transaction {
     private double amount;
     private String date;
     private String category;
+
+    private boolean income;
     public enum PAYMENT_METHOD {
         CASH, CARD
     }
@@ -27,7 +28,7 @@ public class Transaction {
     private ArrayList<Item> items;
 
     public Transaction(String description, String location, double amount, String date,
-                       String category, PAYMENT_METHOD paymentMethod) {
+                       String category, boolean income, PAYMENT_METHOD paymentMethod) {
         this.id = numOfObjects++;
         this.description = description;
         this.location = location;
@@ -35,6 +36,7 @@ public class Transaction {
         this.date = date;
         this.category = category;
         this.paymentMethod = paymentMethod;
+        this.income = income;
     }
 
     public int getId() {
@@ -43,6 +45,14 @@ public class Transaction {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isIncome() {
+        return income;
+    }
+
+    public void setIncome(boolean income) {
+        this.income = income;
     }
 
     public String getDescription() {

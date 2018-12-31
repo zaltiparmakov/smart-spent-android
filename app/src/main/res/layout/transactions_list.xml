@@ -5,7 +5,6 @@
     android:id="@+id/recycler_view_item"
     android:background="@color/veryLightBlue"
     android:elevation="2dp"
-    android:outlineAmbientShadowColor="@android:color/black"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"

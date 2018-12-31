@@ -1,24 +1,16 @@
 package si.smartspent.smartspent.Transactions;
 
 public class Item {
-    private int id;
     private String name;
     private int pieces;
     private double price;
+    private double amount;
 
-    public Item(int id, String name, int pieces, double price) {
-        this.id = id;
+    public Item(String name, int pieces, double price, double amount) {
         this.name = name;
         this.pieces = pieces;
         this.price = price;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.amount = amount;
     }
 
     public String getName() {
@@ -43,5 +35,13 @@ public class Item {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }

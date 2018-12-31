@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".BudgetsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp">
+        <ImageView
+            android:id="@+id/image_budgets_bg"
+            android:background="@drawable/budget"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <ImageView
+            android:id="@+id/menu_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/ic_drawer" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/image_budgets_bg"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="157dp"
+            android:gravity="bottom"
+            android:text="@string/budgets"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="12"
+            android:textSize="32sp" />
+    </RelativeLayout>
+
+</android.support.v7.widget.LinearLayoutCompat>

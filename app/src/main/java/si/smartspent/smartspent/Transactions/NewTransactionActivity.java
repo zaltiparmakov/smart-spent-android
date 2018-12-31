@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,7 @@ public class NewTransactionActivity extends DrawerActivity implements DateTimeCh
     private NumberPicker euroPicker;
     private NumberPicker centPicker;
     private double amount = 0;
+    private Switch income_switch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,8 @@ public class NewTransactionActivity extends DrawerActivity implements DateTimeCh
 
         euroPicker = findViewById(R.id.euro_picker);
         centPicker = findViewById(R.id.cent_picker);
+
+        income_switch = findViewById(R.id.income_switch);
 
         transaction_location = findViewById(R.id.transaction_location);
         // Get closest business places on Google Maps, depending on the current location
@@ -212,6 +216,7 @@ public class NewTransactionActivity extends DrawerActivity implements DateTimeCh
                 amount,
                 date.toString(),
                 transactionCategory,
+                income_switch.isActivated(),
                 Transaction.PAYMENT_METHOD.CARD
         );
 

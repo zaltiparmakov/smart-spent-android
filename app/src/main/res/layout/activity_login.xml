@@ -49,7 +49,7 @@
     <LinearLayout
         android:id="@+id/email_login_form"
         android:layout_width="327dp"
-        android:layout_height="241dp"
+        android:layout_height="270dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="27dp"
         android:orientation="vertical">
@@ -116,10 +116,16 @@
             android:layout_width="match_parent"
             android:layout_height="30sp"
             android:layout_marginTop="8sp"
-            android:background="@drawable/btn_rounded_dark"
+            android:background="@drawable/btn_rounded_primary"
             android:fontFamily="@font/steinerlight"
             android:text="@string/action_signup"
             android:textStyle="bold" />
+
+        <com.google.android.gms.common.SignInButton
+            android:layout_marginTop="15dp"
+            android:onClick="googleSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
     </LinearLayout>
 </RelativeLayout>

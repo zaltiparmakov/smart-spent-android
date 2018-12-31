@@ -3,28 +3,33 @@ package si.smartspent.smartspent;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.maps.android.heatmaps.Gradient;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import si.smartspent.smartspent.Location.LocationEvent;
+import si.smartspent.smartspent.Location.LocationService;
 
 public class MapActivity extends DrawerActivity implements OnMapReadyCallback {
     private static final String TAG = MapActivity.class.getName();
@@ -93,8 +98,6 @@ public class MapActivity extends DrawerActivity implements OnMapReadyCallback {
         onMapReady(mMap);
     }
 
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -118,5 +121,41 @@ public class MapActivity extends DrawerActivity implements OnMapReadyCallback {
         mMap.setMyLocationEnabled(true);
         CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
         mMap.animateCamera(zoom);
+
+        /**
+         * MOCK LOCATIONS
+         *
+         * TODO: Locations should be retrieved from the server
+         */
+        List<LatLng> list = new ArrayList<>();
+        list.add(new LatLng(-37.1886, 145.708));
+        list.add(new LatLng(-37.8361, 144.845));
+        list.add(new LatLng(-38.4034, 144.192));
+        list.add(new LatLng(-38.7597, 143.67));
+        list.add(new LatLng(-36.9672, 141.083));
+
+        int[] colors = {
+                Color.rgb(102, 225, 0), // green
+                Color.rgb(255, 0, 0)    // red
+        };
+
+        float[] startPoints = {
+                0.2f, 1f
+        };
+
+        Gradient gradient = new Gradient(colors, startPoints);
+
+
+        HeatmapTileProvider heatmapTileProvider = new HeatmapTileProvider.Builder()
+                .data(list)
+                .gradient(gradient)
+                .build();
+
+        TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(heatmapTileProvider));
+
+        heatmapTileProvider.setOpacity(0.7);
+        tileOverlay.clearTileCache();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(list.get(0)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 }

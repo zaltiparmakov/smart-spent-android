@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:paddingBottom="25dp" />
 
-    <si.smartspent.smartspent.ProfileView.PointsView
+    <si.smartspent.smartspent.Profile.PointsView
         android:id="@+id/pointsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

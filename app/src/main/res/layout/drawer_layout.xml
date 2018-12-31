@@ -14,8 +14,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/drawer_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:layout_height="?attr/actionBarSize" />
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
@@ -29,8 +28,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:layout_marginLeft="10dp"
         app:menu="@menu/drawer_view"
         app:theme="@style/NavigationDrawerStyle"
         app:headerLayout="@layout/nav_header"
-        android:background="@color/ic_launcher_background"/>
+        app:itemTextColor="@color/dark"
+        android:background="@color/light"/>
 </android.support.v4.widget.DrawerLayout>

@@ -9,36 +9,22 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.ProtocolException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import si.smartspent.smartspent.DrawerActivity;
-import si.smartspent.smartspent.Location;
 import si.smartspent.smartspent.R;
-import si.smartspent.smartspent.Utils;
 
 import static si.smartspent.smartspent.Utils.API_URL;
 
@@ -72,44 +58,6 @@ public class TransactionsActivity extends DrawerActivity {
         actionButton.setOnClickListener(e -> {
             startActivity(new Intent(this, NewTransactionActivity.class));
         });
-
-        // TODO: REMOTE. ONLY FOR TEST PURPOSES
-        new UserDataTask().execute((Void) null);
-    }
-
-    // TODO: REMOVE. ONLY FOR TEST PURPOSES. Filling shared preferences with user data
-    public class UserDataTask extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            final OkHttpClient client;
-            try {
-                OkHttpClient.Builder builder = new OkHttpClient.Builder();
-                client = builder.build();
-
-                Request req = new Request.Builder()
-                        .header("Content-Type", "application/json")
-                        .url(API_URL + "user")
-                        .get()
-                        .build();
-                Response res = client.newCall(req).execute();
-
-                String jsonData = res.body().string();
-                JSONObject jsonObject = (JSONObject) (new JSONParser()).parse(jsonData);
-
-                if(!res.isSuccessful()) {
-                    throw new IOException("Unexpected code " + res);
-                } else {
-                    // put user data into shared preferences
-                }
-            } catch (ProtocolException e) {
-                Log.e(TAG, e.getMessage());
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
     }
 
     private class TransactionsDataTask extends AsyncTask<Void, Void, Boolean> {

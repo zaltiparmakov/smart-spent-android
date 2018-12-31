@@ -3,9 +3,7 @@ package si.smartspent.smartspent;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -22,6 +20,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.SignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +39,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import si.smartspent.smartspent.Profile.ProfileActivity;
+import si.smartspent.smartspent.Transactions.TransactionsActivity;
 
 import static si.smartspent.smartspent.Utils.API_URL;
 
@@ -53,13 +61,25 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int REQUEST_GOOGLE_LOGIN = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // if user is already logged in, redirect to profile activity
         if(Utils.isLoggedIn(getApplicationContext())) {
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            startActivity(new Intent(getApplicationContext(), TransactionsActivity.class));
+            finish();
         }
+
+        // Google Sign in
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestProfile()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         setContentView(R.layout.activity_login);
         mEmailText = (EditText) findViewById(R.id.email);
@@ -182,6 +202,42 @@ public class LoginActivity extends AppCompatActivity {
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    // Google Login with OAuth2
+    public void googleSignIn(View view) {
+        Intent intent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(intent, REQUEST_GOOGLE_LOGIN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_GOOGLE_LOGIN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                updateUserData(account);
+            } catch (ApiException e) {
+                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+                updateUserData(null);
+            }
+        }
+    }
+
+    private void updateUserData(GoogleSignInAccount account) {
+        JSONObject jsonData = new JSONObject();
+        try {
+            jsonData.put("username", account.getEmail());
+            jsonData.put("avatar", account.getPhotoUrl());
+            jsonData.put("first_name", account.getDisplayName());
+            Utils.setUserData(this, jsonData);
+            Utils.setToken(this, account.getIdToken());
+        } catch (JSONException e) {
+            Log.e(TAG, "error while creating JSON object");
         }
     }
 

@@ -1,4 +1,4 @@
-package si.smartspent.smartspent;
+package si.smartspent.smartspent.Location;
 
 import android.app.Service;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package si.smartspent.smartspent.ProfileView;
+package si.smartspent.smartspent.Profile;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

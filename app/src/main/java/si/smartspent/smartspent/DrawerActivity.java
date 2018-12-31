@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import si.smartspent.smartspent.CustomViews.CircleImageView;
+import si.smartspent.smartspent.Profile.ProfileActivity;
 import si.smartspent.smartspent.Transactions.TransactionsActivity;
 
 public class DrawerActivity extends AppCompatActivity {
@@ -27,26 +29,6 @@ public class DrawerActivity extends AppCompatActivity {
     protected FrameLayout frameLayout;
     private TextView name;
     private CircleImageView avatar;
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.nav_settings:
-                intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings_view, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +40,13 @@ public class DrawerActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // select Transactions menu as a default selected menu on start
+        navigationView.getMenu().getItem(0).setChecked(true);
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         Intent intent;
                         switch (menuItem.getItemId()) {
@@ -70,22 +54,41 @@ public class DrawerActivity extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), TransactionsActivity.class);
                                 startActivity(intent);
                                 break;
-                            case R.id.nav_logout:
-                                Utils.logout(getApplicationContext());
-                                intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            case R.id.nav_budgets:
+                                intent = new Intent(getApplicationContext(), BudgetsActivity.class);
                                 startActivity(intent);
-                                // call destroy method to destroy the activity
-                                finish();
+                                break;
+                            case R.id.nav_stats:
+                                intent = new Intent(getApplicationContext(), StatsActivity.class);
+                                startActivity(intent);
                                 break;
                             case R.id.nav_map:
                                 intent = new Intent(getApplicationContext(), MapActivity.class);
                                 startActivity(intent);
                                 break;
-                            case R.id.stats:
-                                intent = new Intent(getApplicationContext(), StatsActivity.class);
+                            case R.id.nav_cardscan:
+                                intent = new Intent(getApplicationContext(), NFCCardScanActivity.class);
+                                startActivity(intent);
+                                break;
+                            case R.id.nav_news:
+                                intent = new Intent(getApplicationContext(), NewsActivity.class);
+                                startActivity(intent);
+                                break;
+                            case R.id.nav_stock_market:
+                                intent = new Intent(getApplicationContext(), StockMarketActivity.class);
+                                startActivity(intent);
+                                break;
+                            case R.id.nav_settings:
+                                intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                startActivity(intent);
+                                break;
+                            case R.id.nav_about:
+                                intent = new Intent(getApplicationContext(), AboutActivity.class);
                                 startActivity(intent);
                                 break;
                         }
+                        // mark current menu item as selected
+                        menuItem.setChecked(true);
                         return true;
                     }
                 }
@@ -137,15 +140,16 @@ public class DrawerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar actionbar = getSupportActionBar();
-        int color = 0;
-        try {
-            color = getResources().getColor(R.color.colorAccent);
-        } catch (Resources.NotFoundException e) {
-            System.err.println("Color not found");
-        }
-        actionbar.setBackgroundDrawable(new ColorDrawable(color));
+        actionbar.setBackgroundDrawable(getDrawable(R.color.colorPrimary));
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_drawer);
-        actionbar.setElevation(10);
+        actionbar.setElevation(5);
+    }
+
+    public void logout(View view) {
+        Utils.logout(this);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

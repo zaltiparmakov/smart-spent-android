@@ -4,12 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -21,14 +23,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/DefaultTheme">
-
-        <activity android:name=".ProfileActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+        <activity android:name=".Profile.ProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,6 +35,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <!-- Services -->
+        <service
+            android:name=".Location.LocationService"
+            android:enabled="true" />
 
         <!-- Providers -->
         <provider
@@ -70,8 +70,7 @@
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_maps"
-            android:launchMode="singleTop" >
-        </activity>
+            android:launchMode="singleTop" />
 
         <!-- Transaction Activities -->
         <activity
@@ -79,8 +78,9 @@
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -98,10 +98,28 @@
         </activity>
 
         <!-- Stats Activities -->
-        <activity android:name=".StatsActivity"></activity>
+        <activity
+            android:name=".StatsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".AboutActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".NFCCardScanActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".StockMarketActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".NewsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".BudgetsActivity"
+            android:launchMode="singleTop" />
 
-        <!-- Services -->
-        <service android:name=".LocationService" android:enabled="true" />
+        <service
+            android:name=".Notifications.NotificationsIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
