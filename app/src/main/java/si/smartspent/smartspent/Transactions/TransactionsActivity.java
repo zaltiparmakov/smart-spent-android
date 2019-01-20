@@ -73,7 +73,7 @@ public class TransactionsActivity extends DrawerActivity {
 
                 Request request = new Request.Builder()
                         .header("Content-Type", "application/json")
-                        .url(API_URL + "transactions")
+                        .url(API_URL + "/transactions")
                         .get()
                         .build();
 
