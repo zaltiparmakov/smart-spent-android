@@ -69,7 +69,7 @@ public class TransactionsTab extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         bView = (BarChart) getView().findViewById(R.id.barchart_trans);
         btn_Choice = (MultiStateToggleButton) getView().findViewById(R.id.multi_choice);
-        CharSequence[] options = new CharSequence[]{"Week", "Month", "All"};
+        CharSequence[] options = new CharSequence[]{"Weeks", "Months", "This Year"};
         new TransactionsTab.TransactionsDataTask().execute((Void) null);
         btn_Choice.setElements(options);
         btn_Choice.setOnValueChangedListener(new org.honorato.multistatetogglebutton.ToggleButton.OnValueChangedListener() {
@@ -238,28 +238,59 @@ public class TransactionsTab extends Fragment {
                     e.printStackTrace();
                 }
             }
-            else if(choice == 2) // Garabage Graph if i'm being honest (useless, na blef implementirano)
+            else if(choice == 2)
             {
                 TransInterval.clear();
+                TransInterval.add("January");
+                TransInterval.add("February");
+                TransInterval.add("March");
+                TransInterval.add("April");
+                TransInterval.add("May");
+                TransInterval.add("June");
+                TransInterval.add("July");
+                TransInterval.add("August");
+                TransInterval.add("September");
+                TransInterval.add("October");
+                TransInterval.add("November");
+                TransInterval.add("December");
+
+                for (int i = 0; i < TransInterval.size(); i++) {
+                    sumInterval.add(0.0f);
+                }
 
                 Calendar c = Calendar.getInstance();
-                Calendar now = Calendar.getInstance();
-                Date today = new Date();
                 try {
                     for (int i = 0; dates.size() > i; i++) {
                         Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(dates.get(i));
                         c.setTime(date);
-                        now.setTime(today);
-                        now.add(Calendar.DAY_OF_MONTH, -30);
-                        Date check = now.getTime();
-                        TransInterval.add("Start");
-                        TransInterval.add("End");
-                        if(c.after(check)) {
-                            sumInterval.set(i, amounts.get(i).floatValue());
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy");
+                        if (c.get(Calendar.MONTH) == Calendar.JANUARY && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(0, sumInterval.get(0) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.FEBRUARY && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(1, sumInterval.get(1) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.MARCH && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date())))  {
+                            sumInterval.set(2, sumInterval.get(2) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.APRIL && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(3, sumInterval.get(3) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.MAY && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(4, sumInterval.get(4) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.JUNE && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(5, sumInterval.get(5) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.JULY && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(6, sumInterval.get(6) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.AUGUST && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(7, sumInterval.get(7) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.SEPTEMBER && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(8, sumInterval.get(8) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.OCTOBER && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(9, sumInterval.get(9) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.NOVEMBER && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(10, sumInterval.get(10) + amounts.get(i).floatValue());
+                        } else if (c.get(Calendar.MONTH) == Calendar.DECEMBER && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {
+                            sumInterval.set(11, sumInterval.get(11) + amounts.get(i).floatValue());
                         }
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -24,7 +24,7 @@ import com.google.gson.JsonParser;
  */
 public class Utils {
     // Django backend for auth and data
-    public static final String API_URL = "http://192.168.1.103:3000";
+    public static final String API_URL = "http://192.168.1.107:3000";
     private static final String TAG = Utils.class.getName();
 
     public static void setToken(Context context, String access_token) {
