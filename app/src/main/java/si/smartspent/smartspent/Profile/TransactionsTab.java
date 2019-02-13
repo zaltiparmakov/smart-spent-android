@@ -1,16 +1,12 @@
 package si.smartspent.smartspent.Profile;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 //<<<<<<< HEAD:app/src/main/java/si/smartspent/smartspent/Profile/TransactionsTab.java
 //=======
@@ -18,29 +14,17 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.net.ProtocolException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.json.simple.parser.JSONParser;
 
@@ -49,8 +33,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import si.smartspent.smartspent.R;
-import si.smartspent.smartspent.Transactions.Transaction;
-import si.smartspent.smartspent.Utils;
 
 import static org.greenrobot.eventbus.EventBus.TAG;
 import static si.smartspent.smartspent.Utils.API_URL;
@@ -84,9 +66,9 @@ public class TransactionsTab extends Fragment {
         btn_Choice.setValue(0);
     }
 
-    private class TransactionsDataTask extends AsyncTask<Void, Void, Boolean> {
+    private class TransactionsDataTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected Boolean doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             final OkHttpClient client;
 
             try {
@@ -95,7 +77,7 @@ public class TransactionsTab extends Fragment {
 
                 Request request = new Request.Builder()
                         .header("Content-Type", "application/json")
-                        .url(API_URL + "/transactions")
+                        .url(API_URL + "transactions")
                         .get()
                         .build();
 
@@ -105,14 +87,13 @@ public class TransactionsTab extends Fragment {
                     String jsonString = response.body().string();
                     // parse JSON array string with transactions to a JSONArray
                     jsonArray = (org.json.simple.JSONArray) (new JSONParser()).parse(jsonString);
-                    return true;
-                }
+                    }
             } catch (IOException e) {
                 Log.e(TAG, "Could not execute HTTP request.");
             } catch (org.json.simple.parser.ParseException e) {
                 Log.e(TAG, "Error while parsing JSON string.");
             }
-            return false;
+            return null;
         }
     }
 
@@ -155,7 +136,7 @@ public class TransactionsTab extends Fragment {
                 Calendar c = Calendar.getInstance();
                 try {
                     for (int i = 0; dates.size() > i; i++) {
-                        Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(dates.get(i));
+                        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(dates.get(i));
                         c.setTime(date);
                         if(c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
                             sumInterval.set(0, sumInterval.get(0) + amounts.get(i).floatValue());
@@ -206,7 +187,8 @@ public class TransactionsTab extends Fragment {
                 Calendar c = Calendar.getInstance();
                 try {
                     for (int i = 0; dates.size() > i; i++) {
-                        Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(dates.get(i));
+                        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(dates.get(i));
+                        // EEE MMM dd HH:mm:ss zzz yyyy")
                         c.setTime(date);
                         if (c.get(Calendar.MONTH) == Calendar.JANUARY) {
                             sumInterval.set(0, sumInterval.get(0) + amounts.get(i).floatValue());
@@ -261,7 +243,7 @@ public class TransactionsTab extends Fragment {
                 Calendar c = Calendar.getInstance();
                 try {
                     for (int i = 0; dates.size() > i; i++) {
-                        Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(dates.get(i));
+                        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(dates.get(i));
                         c.setTime(date);
                         DateFormat dateFormat = new SimpleDateFormat("yyyy");
                         if (c.get(Calendar.MONTH) == Calendar.JANUARY && c.get(Calendar.YEAR) == Integer.parseInt(dateFormat.format(new Date()))) {

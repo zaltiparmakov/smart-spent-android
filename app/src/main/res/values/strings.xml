@@ -119,4 +119,14 @@
     <string name="title_activity_stock_market">StockMarketActivity</string>
     <string name="income">Income</string>
     <string name="scan_nfc">Turn on your NFC module and put your Debit or Credit card on the back of your phone device to scan for the last transactions</string>
+    <string name="string_app_description">SmartSpent is an Android application built by two Computer Science students from Maribor, Slovenia.
+        The Purpose of the application is to allow the user to insert and track the transactions he makes throughout an extended period of time,
+        the user can then access various statistics about his/her spending habits.
+        The application allows for use of a planned user Budget and it incorporates a points system so that the user,
+        can get a sense of achievement about sticking to a certain budget/spending habit, so that he/she can appropriately plan/follow a finance plan.
+        The application also uses a basic genetic algorithm to be able to foresee what the users, spending might look like next month,
+        this unfortunately does not include unforeseen major spikes such as car repairs, health complications, ...</string>
+    <string name="string_app_cr">Application uses various open-source libraries (under GPL/Apache2 Licence), credit and rights go to all respective owners of these libraries.</string>
+    <string name="string_app_link_zoran">https://github.com/zaltiparmakov</string>
+    <string name="string_app_link_uros">https://github.com/markovicu97</string>
 </resources>

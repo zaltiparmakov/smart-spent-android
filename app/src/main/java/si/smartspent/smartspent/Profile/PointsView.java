@@ -63,9 +63,9 @@ public class PointsView extends View {
         }
     }
 
-    private class UserPointsDataTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserPointsDataTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected Boolean doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             final OkHttpClient client;
 
             try {
@@ -74,7 +74,7 @@ public class PointsView extends View {
 
                 Request request = new Request.Builder()
                         .header("Content-Type", "application/json")
-                        .url(API_URL + "/user")
+                        .url(API_URL + "user")
                         .get()
                         .build();
 
@@ -84,14 +84,14 @@ public class PointsView extends View {
                     String jsonString = response.body().string();
                     // parse JSON array string with transactions to a JSONArray
                     jsonObjectsimple = (org.json.simple.JSONObject) (new JSONParser()).parse(jsonString);
-                    return true;
+                    return null;
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Could not execute HTTP request.");
             } catch (org.json.simple.parser.ParseException e) {
                 Log.e(TAG, "Error while parsing JSON string.");
             }
-            return false;
+            return null;
         }
     }
 

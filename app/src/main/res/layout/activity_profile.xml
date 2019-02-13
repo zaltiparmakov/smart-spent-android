@@ -127,14 +127,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="spent_this_month" />
 
                 <TextView
                     android:id="@+id/tV_estimated_spending_next_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="est_spent_nm" />
             </LinearLayout>
 
             <LinearLayout

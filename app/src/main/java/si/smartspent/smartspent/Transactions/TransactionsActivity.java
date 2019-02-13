@@ -12,11 +12,14 @@ import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,7 +27,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import si.smartspent.smartspent.DrawerActivity;
+import si.smartspent.smartspent.Profile.ProfileActivity;
 import si.smartspent.smartspent.R;
+import si.smartspent.smartspent.Utils;
 
 import static si.smartspent.smartspent.Utils.API_URL;
 
@@ -73,7 +78,7 @@ public class TransactionsActivity extends DrawerActivity {
 
                 Request request = new Request.Builder()
                         .header("Content-Type", "application/json")
-                        .url(API_URL + "/transactions")
+                        .url(API_URL + "transactions")
                         .get()
                         .build();
 
@@ -129,6 +134,8 @@ public class TransactionsActivity extends DrawerActivity {
         super.onStart();
         // execute async task to get data from the endpoint
         new TransactionsDataTask().execute((Void) null);
+
+        new UserDataTask().execute((Void) null);
     }
 
     @Override
@@ -140,5 +147,41 @@ public class TransactionsActivity extends DrawerActivity {
     public void onMessageEvent(Transaction transaction) {
         transactionsList.add(transaction);
         fillData();
+    }
+
+    private class UserDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            final OkHttpClient client;
+            try {
+                OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                client = builder.build();
+
+                Request req = new Request.Builder()
+                        .header("Content-Type", "application/json")
+//                        .header("Authorization", "Token " + Utils.getToken(getApplicationContext()))
+                        .url(API_URL + "user")
+                        .get()
+                        .build();
+                Response res = client.newCall(req).execute();
+
+                String jsonData = res.body().string();
+                JSONObject jsonObject = new JSONObject(jsonData);
+
+                if(!res.isSuccessful()) {
+                    throw new IOException("Unexpected code " + res);
+                } else {
+                    // put user data into shared preferences
+                    Utils.setUserData(getApplicationContext(), jsonObject);
+                }
+            } catch (ProtocolException e) {
+                Log.i(TAG, e.getMessage());
+            } catch (IOException e) {
+                Log.i(TAG, e.getMessage());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
